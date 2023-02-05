@@ -1,6 +1,6 @@
-import time
+import time #for time evaluation
 import os
-import psutil
+import psutil #get cpu and memory usage
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt2
@@ -16,7 +16,7 @@ process = psutil.Process(pid)
 start_time = time.time()
 print("Started at: " ,str(start_time))
 
-
+# get cpu and memory usage before creating matrix
 cpu_start = process.cpu_percent()
 mem_start = process.memory_info().rss
 
@@ -30,6 +30,7 @@ C = np.random.rand(10**6, 1)
 D = np.dot(B,C)
 D = np.dot(A,D)
 
+# get end time
 end_time = time.time()
 print("Ended at: " ,str(end_time))
 print("Difference is: ",str(end_time-start_time))
@@ -38,6 +39,7 @@ mem_usage = []
 time_points = []
 
 
+#gather data of used resources per 0.5s step
 while end_time >= start_time:
     print("time:", start_time)
     print(process.cpu_percent())
@@ -46,13 +48,15 @@ while end_time >= start_time:
     time_points.append(start_time)
     start_time = start_time + 0.5
 
+    
+#calculation CDF for A
 values, base = np.histogram(A)
 cumulative = np.cumsum(values)
 
 
 
 
-
+#plot for cdf
 plt.plot(base[:-1], cumulative, c='blue', label='CDF')
 plt.xlabel('Values')
 plt.ylabel('Cumulative Probability')
@@ -65,21 +69,21 @@ mem_end = process.memory_info().rss
 cpu_delta = cpu_end - cpu_start
 mem_delta = mem_end - mem_start
 
-
+# plot for CPU USAGE
 plt2.plot(time_points, cpu_usage, label='CPU Usage')
 plt2.xlabel('Time (s)')
 plt2.ylabel('Usage (%)')
 plt2.legend()
 plt2.show()
 
-
+# plot for Memory USAGE
 plt3.plot(time_points, mem_usage, label='Memory Usage')
 plt3.xlabel('Time (s)')
 plt3.ylabel('Usage (%)')
 plt3.legend()
 plt3.show()
 
-# virtual ram
+# virtual ram MAYBE DELETE THIS!
 ramUsed = psutil.virtual_memory()
 dictionUsed = dict(psutil.virtual_memory()._asdict())
 percentage = psutil.virtual_memory().percent
