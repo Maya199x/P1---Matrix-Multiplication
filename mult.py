@@ -83,12 +83,3 @@ plt3.ylabel('Usage (%)')
 plt3.legend()
 plt3.show()
 
-# virtual ram MAYBE DELETE THIS!
-ramUsed = psutil.virtual_memory()
-dictionUsed = dict(psutil.virtual_memory()._asdict())
-percentage = psutil.virtual_memory().percent
-print("percentage: ", percentage)
-print("total used and availabel: " + str(psutil.virtual_memory().available * 100 / psutil.virtual_memory().total) + " total: " + str(psutil.virtual_memory().total))
-print("CPU usage: {}%".format(cpu_delta))
-print("Memory usage: {} mb".format(mem_delta/1000000))
-# https://stackoverflow.com/questions/15408371/cumulative-distribution-plots-python
